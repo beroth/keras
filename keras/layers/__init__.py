@@ -6,6 +6,7 @@ from ..engine import Input
 from ..engine import InputLayer
 from ..engine import InputSpec
 from .merge import *
+from .crf import *
 from .core import *
 from .convolutional import *
 from .pooling import *
