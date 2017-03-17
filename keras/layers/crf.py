@@ -183,7 +183,7 @@ class ChainCRF(Layer):
     # Arguments
         init: weight initialization function for chain energies U.
             Can be the name of an existing function (str),
-            or a Theano function (see: [initializations](../initializations.md)).
+            or a Theano function (see: [initializers](../initializers.md)).
         U_regularizer: instance of [WeightRegularizer](../regularizers.md)
             (eg. L1 or L2 regularization), applied to the transition weight matrix.
         b_start_regularizer: instance of [WeightRegularizer](../regularizers.md),
@@ -253,7 +253,7 @@ class ChainCRF(Layer):
         self.supports_masking = True
         self.uses_learning_phase = True
         self.input_spec = [InputSpec(ndim=3)]
-        self.init = initializations.get(init)
+        self.init = initializers.get(init)
 
         self.U_regularizer = regularizers.get(U_regularizer)
         self.b_start_regularizer = regularizers.get(b_start_regularizer)
