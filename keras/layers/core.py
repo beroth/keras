@@ -107,9 +107,9 @@ class Dropout(Layer):
             def dropped_inputs():
                 return K.dropout(inputs, self.rate, noise_shape,
                                  seed=self.seed)
-            output = K.in_train_phase(dropped_inputs, inputs,
-                                      training=training)
-        return output
+            return K.in_train_phase(dropped_inputs, inputs,
+                                    training=training)
+        return inputs
 
     def get_config(self):
         config = {'rate': self.rate}
@@ -129,7 +129,7 @@ class SpatialDropout1D(Dropout):
     between feature maps and should be used instead.
 
     # Arguments
-        p: float between 0 and 1. Fraction of the input units to drop.
+        rate: float between 0 and 1. Fraction of the input units to drop.
 
     # Input shape
         3D tensor with shape:
@@ -857,7 +857,7 @@ class Dense(Layer):
             'activation': activations.serialize(self.activation),
             'use_bias': self.use_bias,
             'kernel_initializer': initializers.serialize(self.kernel_initializer),
-            'bias_initializer': initializers.serialize(self.kernel_initializer),
+            'bias_initializer': initializers.serialize(self.bias_initializer),
             'kernel_regularizer': regularizers.serialize(self.kernel_regularizer),
             'bias_regularizer': regularizers.serialize(self.bias_regularizer),
             'activity_regularizer': regularizers.serialize(self.activity_regularizer),

@@ -46,9 +46,9 @@ class Wrapper(Layer):
         return dict(list(base_config.items()) + list(config.items()))
 
     @classmethod
-    def from_config(cls, config):
+    def from_config(cls, config, custom_objects=None):
         from . import deserialize as deserialize_layer
-        layer = deserialize_layer(config.pop('layer'))
+        layer = deserialize_layer(config.pop('layer'), custom_objects=custom_objects)
         return cls(layer, **config)
 
 
@@ -229,8 +229,10 @@ class Bidirectional(Wrapper):
         self.backward_layer.reset_states()
 
     def build(self, input_shape):
-        self.forward_layer.build(input_shape)
-        self.backward_layer.build(input_shape)
+        with K.name_scope(self.forward_layer.name):
+            self.forward_layer.build(input_shape)
+        with K.name_scope(self.backward_layer.name):
+            self.backward_layer.build(input_shape)
         self.built = True
 
     def compute_mask(self, inputs, mask):
