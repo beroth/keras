@@ -336,13 +336,20 @@ class ChainCRF(Layer):
         return sparse_chain_crf_loss(y_true, y_pred, self.U, self.b_start, self.b_end, mask)
 
     def get_config(self):
-        config = {'init': self.init.__name__,
-                  'U_regularizer': self.U_regularizer.get_config() if self.U_regularizer else None,
-                  'b_start_regularizer': self.b_start_regularizer.get_config() if self.b_start_regularizer else None,
-                  'b_end_regularizer': self.b_end_regularizer.get_config() if self.b_end_regularizer else None,
-                  'U_constraint': self.U_constraint.get_config() if self.U_constraint else None,
-                  'b_start_constraint': self.b_start_constraint.get_config() if self.b_start_constraint else None,
-                  'b_end_constraint': self.b_end_constraint.get_config() if self.b_end_constraint else None,
+        config = {'init': initializers.serialize(self.init),
+                  'U_regularizer': regularizers.serialize(self.U_regularizer),
+                  'b_start_regularizer': regularizers.serialize(self.b_start_regularizer),
+                  'b_end_regularizer': regularizers.serialize(self.b_end_regularizer),
+                  'U_constraint': constraints.serialize(self.U_constraint),
+                  'b_start_constraint': constraints.serialize(self.b_start_constraint),
+                  'b_end_constraint': constraints.serialize(self.b_end_constraint),
+#                  'init': self.init.__name__,
+#                  'U_regularizer': self.U_regularizer.get_config() if self.U_regularizer else None,
+#                  'b_start_regularizer': self.b_start_regularizer.get_config() if self.b_start_regularizer else None,
+#                  'b_end_regularizer': self.b_end_regularizer.get_config() if self.b_end_regularizer else None,
+#                  'U_constraint': self.U_constraint.get_config() if self.U_constraint else None,
+#                  'b_start_constraint': self.b_start_constraint.get_config() if self.b_start_constraint else None,
+#                  'b_end_constraint': self.b_end_constraint.get_config() if self.b_end_constraint else None,
                   }
         base_config = super(ChainCRF, self).get_config()
         return dict(list(base_config.items()) + list(config.items()))
