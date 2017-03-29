@@ -320,6 +320,14 @@ class ChainCRF(Layer):
         y_pred_one_hot = K.one_hot(y_pred, nb_classes)
         return K.in_train_phase(x, y_pred_one_hot)
 
+    def logOdds(self, y_A, y_B, prev_layer):
+        '''Substracts the log-likelihood of y_B from the ll of y_A.
+        I.e. it measures how much output y_A is preferred over y_B.
+        '''
+        ll_A = -sparse_chain_crf_loss(y_A, prev_layer, self.U, self.b_start, self.b_end, mask)
+        ll_B = -sparse_chain_crf_loss(y_B, prev_layer, self.U, self.b_start, self.b_end, mask)
+        return ll_A - ll_B
+
     def loss(self, y_true, y_pred):
         '''Linear Chain Conditional Random Field loss function.
         '''
