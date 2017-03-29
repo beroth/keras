@@ -324,6 +324,7 @@ class ChainCRF(Layer):
         '''Substracts the log-likelihood of y_B from the ll of y_A.
         I.e. it measures how much output y_A is preferred over y_B.
         '''
+        mask = self._fetch_mask()
         ll_A = -sparse_chain_crf_loss(y_A, prev_layer, self.U, self.b_start, self.b_end, mask)
         ll_B = -sparse_chain_crf_loss(y_B, prev_layer, self.U, self.b_start, self.b_end, mask)
         return ll_A - ll_B
