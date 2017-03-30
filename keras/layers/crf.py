@@ -143,9 +143,9 @@ def _forward(x, reduce_step, initial_states, U, mask=None):
     inputs = K.expand_dims(x[:, 1:, :], 2) + U_shared
     inputs = K.concatenate([inputs, K.zeros_like(inputs[:, -1:, :, :])], axis=1)
     print("===")
-    print(initial_states[0].shape())
+    print(initial_states[0].shape().eval())
     last, values, _ = K.rnn(_forward_step, inputs, initial_states)
-    print(last.shape())
+    print(last.shape().eval())
     return last, values
 
 
