@@ -335,6 +335,18 @@ class ChainCRF(Layer):
             return ll_A - ll_B
         return loss_function
 
+
+    def get_log_odds_loss_function2(self, prev_layer):
+        '''Substracts the log-likelihood of y_B from the ll of y_A.
+        I.e. it measures how much output y_A is preferred over y_B.
+        '''
+        mask = self._fetch_mask()
+        prev_layer = theano.tensor.as_tensor_variable(prev_layer)
+        def loss_function(y_A, y_unused):
+            ll_B = chain_crf_loss(y_B, prev_layer, self.U, self.b_start, self.b_end, mask)
+            return ll_B
+        return loss_function
+
     def loss(self, y_true, y_pred):
         '''Linear Chain Conditional Random Field loss function.
         '''
