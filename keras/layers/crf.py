@@ -343,7 +343,7 @@ class ChainCRF(Layer):
         mask = self._fetch_mask()
         prev_layer = theano.tensor.as_tensor_variable(prev_layer)
         def loss_function(y_A, y_unused):
-            ll_B = chain_crf_loss(y_B, prev_layer, self.U, self.b_start, self.b_end, mask)
+            ll_B = chain_crf_loss(y_A, prev_layer, self.U, self.b_start, self.b_end, mask)
             return ll_B
         return loss_function
 
