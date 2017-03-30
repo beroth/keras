@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import
 
+import theano
 from .. import backend as K
 from .. import initializers, regularizers, constraints
 from ..engine import Layer, InputSpec
