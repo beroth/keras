@@ -142,7 +142,7 @@ def _forward(x, reduce_step, initial_states, U, mask=None):
 
     inputs = K.expand_dims(x[:, 1:, :], 2) + U_shared
     inputs = K.concatenate([inputs, K.zeros_like(inputs[:, -1:, :, :])], axis=1)
-
+    print(initial_states.shape)
     last, values, _ = K.rnn(_forward_step, inputs, initial_states)
     return last, values
 
@@ -370,13 +370,6 @@ class ChainCRF(Layer):
                   'U_constraint': constraints.serialize(self.U_constraint),
                   'b_start_constraint': constraints.serialize(self.b_start_constraint),
                   'b_end_constraint': constraints.serialize(self.b_end_constraint),
-#                  'init': self.init.__name__,
-#                  'U_regularizer': self.U_regularizer.get_config() if self.U_regularizer else None,
-#                  'b_start_regularizer': self.b_start_regularizer.get_config() if self.b_start_regularizer else None,
-#                  'b_end_regularizer': self.b_end_regularizer.get_config() if self.b_end_regularizer else None,
-#                  'U_constraint': self.U_constraint.get_config() if self.U_constraint else None,
-#                  'b_start_constraint': self.b_start_constraint.get_config() if self.b_start_constraint else None,
-#                  'b_end_constraint': self.b_end_constraint.get_config() if self.b_end_constraint else None,
                   }
         base_config = super(ChainCRF, self).get_config()
         return dict(list(base_config.items()) + list(config.items()))
