@@ -327,6 +327,8 @@ class ChainCRF(Layer):
         '''
         mask = self._fetch_mask()
         prev_layer = theano.tensor.as_tensor_variable(prev_layer)
+        y_A = theano.tensor.as_tensor_variable(y_A)
+        y_B = theano.tensor.as_tensor_variable(y_B)
         ll_A = -sparse_chain_crf_loss(y_A, prev_layer, self.U, self.b_start, self.b_end, mask)
         ll_B = -sparse_chain_crf_loss(y_B, prev_layer, self.U, self.b_start, self.b_end, mask)
         return ll_A - ll_B
