@@ -144,8 +144,10 @@ def _forward(x, reduce_step, initial_states, U, mask=None):
     inputs = K.concatenate([inputs, K.zeros_like(inputs[:, -1:, :, :])], axis=1)
     print("===")
     print(initial_states[0].type.ndim)
+    print(initial_states[0].type.shape)
     last, values, _ = K.rnn(_forward_step, inputs, initial_states)
     print(last.type.ndim)
+    print(last.type.shape)
     return last, values
 
 
