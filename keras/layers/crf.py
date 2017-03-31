@@ -145,7 +145,7 @@ def _forward(x, reduce_step, initial_states, U, mask=None):
     print("===")
     print(initial_states[0].type.ndim)
     # TODO: restore: last, values, _ = K.rnn(_forward_step, inputs, initial_states)
-    last, values, _ = K.rnn(_forward_step, inputs, initial_states)
+    last, values, _ = K.rnn(_forward_step, inputs, initial_states[0])
     print(last.type.ndim)
     return last, values
 
