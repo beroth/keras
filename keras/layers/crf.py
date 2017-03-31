@@ -142,11 +142,7 @@ def _forward(x, reduce_step, initial_states, U, mask=None):
 
     inputs = K.expand_dims(x[:, 1:, :], 2) + U_shared
     inputs = K.concatenate([inputs, K.zeros_like(inputs[:, -1:, :, :])], axis=1)
-    print("===")
-    print(initial_states[0].type.ndim)
-    # TODO: restore: last, values, _ = K.rnn(_forward_step, inputs, initial_states)
     last, values, _ = K.rnn(_forward_step, inputs, initial_states)
-    print(last.type.ndim)
     return last, values
 
 
@@ -336,18 +332,6 @@ class ChainCRF(Layer):
             ll_A = -sparse_chain_crf_loss(y_A, prev_layer, self.U, self.b_start, self.b_end, mask)
             ll_B = -sparse_chain_crf_loss(y_B, prev_layer, self.U, self.b_start, self.b_end, mask)
             return ll_A - ll_B
-        return loss_function
-
-
-    def get_log_odds_loss_function2(self, prev_layer):
-        '''Substracts the log-likelihood of y_B from the ll of y_A.
-        I.e. it measures how much output y_A is preferred over y_B.
-        '''
-        mask = self._fetch_mask()
-        prev_layer = theano.tensor.as_tensor_variable(prev_layer)
-        def loss_function(y_A, y_unused):
-            ll_B = chain_crf_loss(y_A, prev_layer, self.U, self.b_start, self.b_end, mask)
-            return ll_B
         return loss_function
 
     def loss(self, y_true, y_pred):
